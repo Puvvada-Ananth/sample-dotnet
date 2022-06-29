@@ -5,8 +5,7 @@ on:
   # a pull request.
   push:
     branches:
-      - master
-      - dotnet
+      - main
   pull_request:
     types:
       - opened
