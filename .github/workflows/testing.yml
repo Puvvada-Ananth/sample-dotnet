@@ -1,0 +1,18 @@
+name: Remote repo workflow trigger
+on:
+  push:
+  schedule:
+    - cron: '0 12 * * *'
+  repository_dispatch:
+
+jobs:
+  remote-trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: trigger test's in automatin repo
+        if: github.event.action != 'pong'
+        run: |
+          curl -X POST https://ghe.coxautoinc.com/api/v3/repos/OWNER/recon-API-TestAutomation/actions/workflows/develop-automation-test.yml/dispatches \
+          -H 'Accept: application/vnd.github.everest-preview+json' \
+          -u ${{ secrets.IRECON_TRIGGER_TOKEN }} \
+          --data '{"ref":"master"}'
